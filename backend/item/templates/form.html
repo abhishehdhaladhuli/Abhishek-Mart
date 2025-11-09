@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+<h1 class="mb-6 text-3xl font-semibold">{{ title }}</h1>
+
+<form method="post" enctype="multipart/form-data"
+      action="{% if title == 'New Item' %}{% url 'new_item' %}{% else %}{% url 'edit_item' item.id %}{% endif %}">
+    {% csrf_token %}
+
+    <div class="mb-4">
+        <label class="inline-block mb-2 font-medium">Category</label><br>
+        {{ form.category }}
+    </div>
+
+    <div class="mb-4">
+        <label class="inline-block mb-2 font-medium">Name</label><br>
+        {{ form.name }}
+    </div>
+
+    <div class="mb-4">
+        <label class="inline-block mb-2 font-medium">Price</label><br>
+        {{ form.price }}
+    </div>
+
+    <div class="mb-4">
+        <label class="inline-block mb-2 font-medium">Description</label><br>
+        {{ form.description }}
+    </div>
+
+    <div class="mb-4">
+        <label class="inline-block mb-2 font-medium">Image</label><br>
+        {{ form.image }}
+    </div>
+
+    {% if form.errors %}
+    <div class="mb-4 p-4 bg-red-500 rounded-xl text-white">
+        {% for field in form %}
+            {{ field.errors }}
+        {% endfor %}
+        {{ form.non_field_errors }}
+    </div>
+    {% endif %}
+
+    <button class="py-3 px-8 text-lg font-semibold bg-teal-500 hover:bg-teal-600 text-white rounded-xl">
+        Submit
+    </button>
+</form>
+{% endblock %}
